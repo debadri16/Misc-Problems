@@ -5,45 +5,32 @@
 
 using namespace std;
 
-i64 dp[1000][1000];
-//pascal's triangle
-i64 nCr(int n, int r)
+
+i64 nCr(i64 n)
 {
-       if(n==r) return dp[n][r] = 1;
-       if(r==0) return dp[n][r] = 1;
-       if(r==1) return dp[n][r] = (i64)n;
-       if(dp[n][r]) return dp[n][r];
-    return dp[n][r] = nCr(n-1,r) + nCr(n-1,r-1);
+    return n*(n-1)/2;
 }
 
 int main(){
-    int m,n;
+    i64 m,n;
     cin>>n>>m;
     i64 val,min_pairs,max_pairs,comb;
     
-    int each = n/m;
-    int r = n%m;
-    //if each team has single member
-    if(each != 1)
-        comb = nCr(each,2);
-    else
-        comb = 0;
+    i64 each = n/m;
+    i64 r = n%m;
+    
+    comb = nCr(each);
     
     if((each*m) != n){
-        if(r != 1)          //if remaining is not single
-            val = nCr(r,2);
-        else
-            val = 0;
-            
-        min_pairs = comb*m + each*r + val;
+        min_pairs = nCr(each+1)*r + comb*(m-r);
     }
     else{
         min_pairs = comb*m;
     }
     
-    int temp = n-(m-1);
+    i64 temp = n-(m-1);
     if(temp != 1)
-        max_pairs = nCr(temp,2);
+        max_pairs = nCr(temp);
     else
         max_pairs = 0;
     
